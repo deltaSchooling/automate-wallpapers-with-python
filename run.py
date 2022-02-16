@@ -14,30 +14,26 @@ end tell
 END"""
 
 
-def get_filenames_from_directory(folder_location):
-	files = os.listdir(folder_location)
-	return files
+files = os.listdir(WALLPAPER_FOLDER)
 
+## rebuilds arrays
 
-def set_wallpaper():
-	print(f"Setting the wallpaper")
-	wallpapers = get_filenames_from_directory(WALLPAPER_FOLDER)
-	random_wallpaper = random.choice(wallpapers)
-	full_image_path = os.path.join(
+fileType = '.png'
+newFiles = []
+
+for i in range(1, files.__len__()):
+	 newFiles.append(str(i) + fileType)
+
+files = newFiles
+
+## start
+
+while True:
+	for imagePos in files:
+		full_image_path = os.path.join(
 		pathlib.Path().absolute(),
 		WALLPAPER_FOLDER,
-		random_wallpaper
+		imagePos
 	)
-
-	subprocess.Popen(SET_WALLPAPER_OSASCRIPT.format(full_image_path), shell=True)
-
-
-def run():
-	schedule.every(10).seconds.do(set_wallpaper)
-	while True:
-		schedule.run_pending()
-		time.sleep(1)
-
-
-if __name__ == '__main__':
-	run()
+		subprocess.Popen(SET_WALLPAPER_OSASCRIPT.format(full_image_path), shell=True)
+		time.sleep(.5)

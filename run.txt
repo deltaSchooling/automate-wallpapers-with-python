@@ -1,0 +1,40 @@
+import os
+import pathlib
+import random
+import requests
+import schedule
+import subprocess
+import time
+
+WALLPAPER_endFOLDER = 'wallpapers'
+SET_WALLPAPER_OSASCRIPT = """/usr/bin/osascript<<END
+tell application "Finder"
+set desktop picture to POSIX file "{}"
+end tell
+END"""
+
+fileNames = os.listdir(WALLPAPER_endFOLDER)
+fileNames.sort()
+
+WPstate = 0
+
+def nextWallpaer():
+	return fileNames[WPstate]
+
+def changeWallpaper():
+	print('changing image')
+	full_image_path = os.path.join(
+	pathlib.Path().absolute(),
+	WALLPAPER_endFOLDER,
+	nextWallpaer())
+	subprocess.Popen(SET_WALLPAPER_OSASCRIPT.format(full_image_path), shell=True)
+
+def run():
+	schedule.every(10).seconds.do(changeWallpaper)
+	while True:
+		schedule.run_pending()
+		time.sleep(1)
+
+
+if __name__ == '__main__':
+	run()
