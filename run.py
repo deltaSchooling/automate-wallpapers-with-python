@@ -36,4 +36,4 @@ while True:
 		imagePos
 	)
 		subprocess.Popen(SET_WALLPAPER_OSASCRIPT.format(full_image_path), shell=True)
-		time.sleep(.5)
+		time.sleep(.25)
